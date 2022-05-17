@@ -11,5 +11,5 @@ So, I gathered up the data and listed down the following results that I needed:
 4. What's the average duration of an episode of a Series and a Movie on Netflix? Because obviously we want the best content but not want to sit for hours.
 5. What are the Top 15 most awarded Movies and Series present on Netflix? This is for people who want to watch the hyped up content.
 
-I used Python Pandas & Python Matplotlib to analyze and get the answers of the above data. You can find the graphical visualization of data in the 
+I used Python Pandas, Python Matplotlib & Seaborn to analyze and get the answers of the above data. You can find the graphical visualization of data in the 
 uploaded screenshots.
