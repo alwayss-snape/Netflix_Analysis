@@ -1,9 +1,12 @@
+from tkinter.ttk import Style
 import pandas as pd
 import plotly.graph_objs as go
-
+import numpy as np 
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 #Reading the CSV and creating a copy of it
-Og = pd.read_csv('Insert file directory')
+Og = pd.read_csv('Insert File Directory')
 
 df = Og.copy()
 
@@ -12,7 +15,7 @@ df = Og.copy()
 # print(df.info()) #gives us the info about what type of data is present in the dataframe
 # print(df.isnull().sum()) #gives the total missing values
 
-df = df.drop(columns=['Metacritic Score', 'Boxoffice', 'TMDb Trailer', 'IMDb Link', 'Image', 'Poster', 'Production House', 'Netflix Link', 'Trailer Site'], axis=1)
+# df = df.drop(columns=['Metacritic Score', 'Boxoffice', 'TMDb Trailer', 'IMDb Link', 'Image', 'Poster', 'Production House', 'Netflix Link', 'Trailer Site'], axis=1)
 # print(df.head())
 #Converting dates(object datatype) into datetime to use as real dates
 df['Release Date'] = pd.to_datetime(df['Release Date'])
@@ -232,7 +235,7 @@ s_rel_df = pd.DataFrame(s_release.values(),index = s_release.keys(),
 s_rel_df.sort_values(by='Year Counts',ascending=False, inplace=True)
 
 top10_s_release = s_rel_df[0:10]
-print(top10_s_release)
+# print(top10_s_release)
 
 fig = go.Figure(data=[go.Bar(
     x = top10_s_release.index,
@@ -281,4 +284,24 @@ fig.update_layout(title_text= 'Comparison of Movies released by Netlfix over the
                   xaxis=dict(
                   title='Titles',
                   titlefont_size=14))
-print(fig.show())
+# print(fig.show())
+
+"""------------------------------- Top 15 Movies and Series in terms of total awards received -------------------------------"""
+
+score_columns = [col for col in df.columns if 'Score' in col]
+score_columns.append('Boxoffice')
+
+df_score = df[score_columns]
+df_score = df_score.dropna(subset=['Boxoffice'])
+df_score['Boxoffice'] = df_score['Boxoffice'].replace('[\$,]','',regex=True)
+df_score['Boxoffice'] = pd.to_numeric(df_score['Boxoffice'])
+df_score['Rotten Tomatoes Score'] = df_score['Rotten Tomatoes Score']/10
+df_score['Metacritic Score'] = df_score['Metacritic Score']/10
+# print(df_score.head())
+
+df_score_long = pd.melt(df_score, id_vars= ['Boxoffice'], value_vars= ['Hidden Gem Score', 'IMDb Score', 'Rotten Tomatoes Score', 'Metacritic Score'],
+                                                            var_name= 'Platform', value_name= 'Score')
+# print(df_score_long.head())
+
+sns.lmplot(x = 'Score',y = 'Boxoffice',hue = 'Platform',data = df_score_long )
+print(plt.show())
