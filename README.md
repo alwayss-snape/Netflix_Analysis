@@ -1,4 +1,4 @@
-# Analysis of Content present on Netflix and find some underrated content pieces.
+# Analysis of Content present on Netflix and find Top 15 movies and Series.
 
 There's a plethora of content present on Netflix, and sometime's one may think that Netflix focuses on quantity over quality in recent times.
 So, as a person who watches a lot of video content, I thought to help myself out. I found a databse that powers Flixgem.com
